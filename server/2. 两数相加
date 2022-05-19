@@ -1,0 +1,60 @@
+"""
+https://leetcode.cn/problems/add-two-numbers/
+给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
+请你将两个数相加，并以相同形式返回一个表示和的链表。
+你可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+
+示例 1：
+输入：l1 = [2,4,3], l2 = [5,6,4]
+输出：[7,0,8]
+解释：342 + 465 = 807.
+"""
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        tmp = 0
+        newNode = ListNode(-1)
+        res = newNode
+        while l1 and l2:
+            sums = l1.val + l2.val + tmp
+            if sums >= 10:
+                tmp = 1
+                sums -= 10
+            else:
+                tmp = 0
+
+            res.next = ListNode(sums)
+            res = res.next
+            l1 = l1.next
+            l2 = l2.next
+        
+        if not l1:
+            while l2:
+                sums = l2.val + tmp
+                if sums >= 10:
+                    tmp = 1
+                    sums -= 10
+                else:
+                    tmp = 0
+                res.next = ListNode(sums)
+                res = res.next
+                l2 = l2.next
+        if not l2:
+            while l1:
+                sums = l1.val + tmp
+                if sums >= 10:
+                    tmp = 1
+                    sums -= 10
+                else:
+                    tmp = 0
+                res.next = ListNode(sums)
+                res = res.next
+                l1 = l1.next
+        if tmp == 1:
+            res.next = ListNode(tmp)
+            res = res.next
+        return newNode.next
