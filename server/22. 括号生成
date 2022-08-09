@@ -34,6 +34,8 @@ res = S.generateParenthesis(3)
 print(res)
 
 法2: 动态规划
+这里用dp[i]表示 n=i 时的所有有效括号组合，那么状态转移公式为
+dp[i+1] = ‘(’ + Sleft + ‘)’ + Sright = ‘(’ + dp[p] + ‘)’ + dp[i−p]，p = 0, 1, 2, ... i.
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         dp = [[] for _ in range(n + 1)]
