@@ -1,0 +1,38 @@
+"""
+给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+
+有效字符串需满足：
+左括号必须用相同类型的右括号闭合。
+左括号必须以正确的顺序闭合。
+ 
+示例 1：
+输入：s = "()"
+输出：true
+
+示例 2：
+输入：s = "()[]{}"
+输出：true
+
+示例 3：
+输入：s = "(]"
+输出：false
+
+示例 4：
+输入：s = "([)]"
+输出：false
+"""
+解析：借用栈
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = []
+        Dict = {"}":"{", "]":"[", ")":"("}
+        for ele in s:
+            if ele in Dict.values():
+                stack.append(ele)
+            elif ele in Dict.keys():
+                if stack == [] or Dict[ele] != stack.pop():
+                    return False
+            else:
+                return False
+
+        return  stack == []
