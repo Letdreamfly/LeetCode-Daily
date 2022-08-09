@@ -1,0 +1,37 @@
+“”“
+数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+
+示例 1：
+输入：n = 3
+输出：["((()))","(()())","(())()","()(())","()()()"]
+
+示例 2：
+输入：n = 1
+输出：["()"]
+”“”
+参考答案
+https://blog.csdn.net/qq_20141867/article/details/104050007
+法1: 回溯法
+class Solution:
+    def generateParenthesis(self, n):
+        res = []
+        def backtrack(prefix, left, right):
+            print(prefix)
+            if len(prefix) == 2 * n:
+                res.append(prefix)
+                return
+            # 控制左括号的数量，避免出现'(((((('的情况
+            if left < n:
+                backtrack(prefix + '(', left + 1, right)
+            # 控制右括号的数量
+            if right < left:
+                backtrack(prefix + ')', left, right + 1)
+        backtrack('', 0, 0)
+        return res
+
+S = Solution()
+res = S.generateParenthesis(3)
+print(res)
+
+法2: 动态规划
+
