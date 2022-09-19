@@ -1,0 +1,46 @@
+"""
+https://leetcode.cn/problems/valid-sudoku/
+请你判断一个 9 x 9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。
+数字 1-9 在每一行只能出现一次。
+数字 1-9 在每一列只能出现一次。
+数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。（请参考示例图）
+
+注意：
+一个有效的数独（部分已被填充）不一定是可解的。
+只需要根据以上规则，验证已经填入的数字是否有效即可。
+空白格用 '.' 表示。
+
+解题思路
+https://segmentfault.com/a/1190000023277543
+思路：迭代，哈希表
+
+先看数独有效的规则：
+数字 1-9 在每一行只能出现一次。
+数字 1-9 在每一列只能出现一次。
+数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
+那么我们可以根据这个规则，遍历给定的数独三次，分别去判断每行，每列，每个 3x3 宫内是否有重复的数字。如果有重复的数字，可以直接返回 False；否则，直至遍历结束，返回 True。
+
+但是在这里，可以考虑遍历一次，同时去判断每行，每列，每个 3x3 宫内是否有重复的数字。
+
+在这里，我们使用哈希表去存储每个数字出现的次数（包括每行，每列，每个 3x3 宫）。在这里主要的问题是：因为数独是 9x9 的，每行每列很容易枚举，但是枚举每个 3x3 宫格会有一些麻烦。
+
+在这里，枚举每个 3x3 宫，使用以下的式子：
+
+box_index = (row // 3) * 3 + col // 3
+"""
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        rows = [{} for _ in range(9)]
+        cols = [{} for _ in range(9)]
+        cells = [{} for _ in range(9)]
+
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] != ".":
+                    num = int(board[i][j])
+                    rows[i][num] = rows[i].get(num, 0) + 1
+                    cols[j][num] = cols[j].get(num, 0) + 1
+                    cells[(i//3)*3 + j//3][num] = cells[(i//3)*3 + j//3].get(num, 0) + 1
+                    if rows[i][num] > 1 or cols[j][num] > 1 or cells[(i//3)*3 + j//3][num] > 1:
+                        return False
+        return True
