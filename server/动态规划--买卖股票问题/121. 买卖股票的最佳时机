@@ -1,0 +1,38 @@
+"""
+https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/
+
+
+解析方案：
+参考：https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/solution/gu-piao-wen-ti-python3-c-by-z1m/
+"""
+方法1：双重循环，时间超时
+class Solution(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        max_money = 0
+        for i in range(len(prices)-1):
+            for j in range(i+1, len(prices)):
+                max_money = max(max_money, prices[j]-prices[i])
+        return max_money
+        
+        
+方法2:动态规划方法，把当前的最优解转化成上一步的最优解和当前步的结合。
+class Solution(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        length = len(prices)
+        if length <= 1:
+            return 0
+        dp = [0 for _ in range(length)]
+        min_price = prices[0]
+
+        for i in range(1, length):
+            min_price = min(min_price, prices[i])
+            dp[i] = max(dp[i-1], prices[i]-min_price)
+        return dp[-1]
