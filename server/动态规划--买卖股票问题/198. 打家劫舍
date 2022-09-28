@@ -28,6 +28,7 @@ dp0[i] = max(dp0[i-1], dp1[i-1])
 max(dp0[-1], dp1[-1])
 
 """
+方法1:diy
 class Solution(object):
     def rob(self, nums):
         """
@@ -48,4 +49,23 @@ class Solution(object):
             dp1[i] = max(dp0[i-1]+nums[i], dp1[i-1]-nums[i-1]+nums[i])
             dp0[i] = max(dp1[i-1], dp0[i-1])
         return max(dp0[-1], dp1[-1])
+        
+方法2:官方解答
+https://leetcode.cn/problems/house-robber/solution/da-jia-jie-she-by-leetcode-solution/
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+
+        size = len(nums)
+        if size == 1:
+            return nums[0]
+        
+        dp = [0] * size
+        dp[0] = nums[0]
+        dp[1] = max(nums[0], nums[1])
+        for i in range(2, size):
+            dp[i] = max(dp[i - 2] + nums[i], dp[i - 1])
+        
+        return dp[size - 1]
 
