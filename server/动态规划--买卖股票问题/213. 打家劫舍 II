@@ -39,3 +39,33 @@ class Solution:
             return max(nums[0], nums[1])
         else:
             return max(robRange(0, length - 2), robRange(1, length - 1))
+            
+方法2:
+按照上面思路复现：
+class Solution(object):
+    def rob(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        length = len(nums)
+        if length == 1:
+            return nums[0]
+        elif length == 2:
+            return max(nums[0], nums[1])
+        else:
+            dp0 = [0] * (length)
+            dp1 = [0] * (length)
+            # from 0
+            dp0[0] = nums[0]
+            dp0[1] = max(nums[0], nums[1])
+            for i in range(2, length-1):
+                dp0[i] = max(dp0[i-1], dp0[i-2]+nums[i])
+            dp1[1] = nums[1]
+            dp1[2] = max(nums[1], nums[2])
+            for i in range(3, length):
+                dp1[i] = max(dp1[i-1], dp1[i-2]+nums[i])
+
+            return max(dp1[-1], dp0[-2])
+            
+
