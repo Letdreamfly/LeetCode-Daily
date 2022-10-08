@@ -1,0 +1,28 @@
+"""
+https://leetcode.cn/problems/is-unique-lcci/
+示例 1：
+输入: s = "leetcode"
+输出: false 
+
+示例 2：
+输入: s = "abc"
+输出: true
+
+限制：
+0 <= len(s) <= 100
+s[i]仅包含小写字母
+如果你不使用额外的数据结构，会很加分。
+"""
+class Solution(object):
+    def isUnique(self, astr):
+        """
+        :type astr: str
+        :rtype: bool
+        """
+        dict0 = {}
+        for ele in astr:
+            if ele not in dict0:
+                dict0[ele] = 1
+            else:
+                return False
+        return True
