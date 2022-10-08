@@ -13,6 +13,7 @@ https://leetcode.cn/problems/is-unique-lcci/
 s[i]仅包含小写字母
 如果你不使用额外的数据结构，会很加分。
 """
+法一：借助字典储存count
 class Solution(object):
     def isUnique(self, astr):
         """
@@ -24,5 +25,19 @@ class Solution(object):
             if ele not in dict0:
                 dict0[ele] = 1
             else:
+                return False
+        return True
+
+法二：借助列表储存count
+class Solution(object):
+    def isUnique(self, astr):
+        """
+        :type astr: str
+        :rtype: bool
+        """
+        cnt_list = [0] * 26
+        for ele in astr:
+            cnt_list[ord(ele)-ord('a')] += 1
+            if cnt_list[ord(ele)-ord('a')] > 1:
                 return False
         return True
