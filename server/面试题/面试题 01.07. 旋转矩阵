@@ -1,0 +1,41 @@
+"""
+给你一幅由 N × N 矩阵表示的图像，其中每个像素的大小为 4 字节。请你设计一种算法，将图像旋转 90 度。
+不占用额外内存空间能否做到？
+
+示例 1:
+给定 matrix = 
+[
+  [1,2,3],
+  [4,5,6],
+  [7,8,9]
+],
+原地旋转输入矩阵，使其变为:
+[
+  [7,4,1],
+  [8,5,2],
+  [9,6,3]
+]
+
+来源：力扣（LeetCode）
+链接：https://leetcode.cn/problems/rotate-matrix-lcci
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+"""
+https://leetcode.cn/problems/rotate-matrix-lcci/solution/xuan-zhuan-ju-zhen-by-leetcode-solution/
+解析：
+先将矩阵做一个垂直镜像，再将矩阵做一个对角线镜像 等价于 将矩阵做一个顺时针旋转，即可做到在原矩阵上操作。
+class Solution(object):
+    def rotate(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: None Do not return anything, modify matrix in-place instead.
+        """
+        length = len(matrix)
+        for i in range(length//2):
+            for j in range(length):
+                matrix[i][j], matrix[length-1-i][j] = matrix[length-1-i][j], matrix[i][j]
+        
+        for i in range(length):
+            for j in range(i):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+        
+        return matrix
