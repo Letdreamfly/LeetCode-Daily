@@ -1,0 +1,45 @@
+"""
+编写一种算法，若M × N矩阵中某个元素为0，则将其所在的行与列清零。
+
+示例 1：
+输入：
+[
+  [1,1,1],
+  [1,0,1],
+  [1,1,1]
+]
+输出：
+[
+  [1,0,1],
+  [0,0,0],
+  [1,0,1]
+]
+
+来源：力扣（LeetCode）
+链接：https://leetcode.cn/problems/zero-matrix-lcci
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+"""
+解析：
+使用两个列表记录每列/每行中包含0的情况，然后依次对行列赋0.
+class Solution(object):
+    def setZeroes(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: None Do not return anything, modify matrix in-place instead.
+        """
+        rows = [False] * len(matrix)
+        cols = [False] * len(matrix[0])
+
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if matrix[i][j] == 0:
+                    rows[i] = True
+                    cols[j] = True
+
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if rows[i] or cols[j]:
+                     matrix[i][j] = 0
+                
+        return matrix
+
