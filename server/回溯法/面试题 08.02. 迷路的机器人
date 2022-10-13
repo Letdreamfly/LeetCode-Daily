@@ -43,12 +43,27 @@ class Solution(object):
             tmp.append([curr_x, curr_y])
             if curr_x == dest_x and curr_y == dest_y:
                 res.append(tmp[:])
-                
+
             trackback(curr_x+1, curr_y)
+            if len(res) >= 1:
+                return
             trackback(curr_x, curr_y+1)
+            if len(res) >= 1:
+                return
             tmp.pop(-1)
 
         trackback(0, 0)
 
-        return res[0] if len(res) >= 1 else []
+        return res[0]
+
+
+input = [
+  [0,0,0],
+  [0,1,0],
+  [0,0,0]
+]
+S = Solution()
+res = S.pathWithObstacles(input)
+print(res)
+
 备注：此方法超出了时间限制。
