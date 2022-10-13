@@ -19,6 +19,7 @@
 链接：https://leetcode.cn/problems/string-rotation-lcci
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 """
+法1:常规方法
 class Solution(object):
     def isFlipedString(self, s1, s2):
         """
@@ -38,3 +39,13 @@ class Solution(object):
                     return True
 
         return False
+        
+法2:只检查一次的方法
+class Solution:
+    def isFlipedString(self, s1: str, s2: str) -> bool:
+        return len(s1) == len(s2) and s2 in s1 + s1
+
+作者：LeetCode-Solution
+链接：https://leetcode.cn/problems/string-rotation-lcci/solution/zi-fu-chuan-lun-zhuan-by-leetcode-soluti-kc8z/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
