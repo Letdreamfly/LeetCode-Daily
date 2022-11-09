@@ -1,0 +1,50 @@
+"""
+牛客网练习题
+https://www.nowcoder.com/practice/75e878df47f24fdc9dc3e400ec6058ca?tpId=295&tqId=23286&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj
+描述
+给定一个单链表的头结点pHead(该头节点是有值的，比如在下图，它的val是1)，长度为n，反转该链表后，返回新链表的表头。
+
+数据范围： 0\leq n\leq10000≤n≤1000
+要求：空间复杂度 O(1)O(1) ，时间复杂度 O(n)O(n) 。
+
+如当输入链表{1,2,3}时，
+经反转后，原链表变为{3,2,1}，所以对应的输出为{3,2,1}。
+
+示例1
+输入：{1,2,3}
+返回值：{3,2,1}
+
+示例2
+输入：{}
+返回值：{}
+说明：
+空链表则输出空 
+"""
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param head ListNode类 
+# @return ListNode类
+#
+class Solution:
+    def ReverseList(self , head: ListNode) -> ListNode:
+        # write code here
+        if head == None or head.next == None:
+            return head
+        newhead = ListNode(0)
+
+        while head and head.next:
+            tmp = head.next
+            head.next = newhead.next
+            newhead.next = head
+            head = tmp
+        
+        head.next = newhead.next
+        newhead.next = head
+        return newhead.next
+
