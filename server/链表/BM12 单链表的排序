@@ -1,0 +1,100 @@
+"""
+https://www.nowcoder.com/practice/f23604257af94d939848729b1a5cda08
+描述
+给定一个节点数为n的无序单链表，对其按升序排序。
+
+数据范围：0 < n \le 1000000<n≤100000
+要求：空间复杂度 O(n)O(n)，时间复杂度 O(nlogn)O(nlogn)
+
+示例1
+输入：[1,3,2,4,5]
+返回值：
+{1,2,3,4,5}
+
+示例2
+输入：[-1,0,-2]
+返回值：{-2,-1,0}
+
+方法一：归并排序（推荐使用）
+知识点1：分治
+
+分治即“分而治之”，“分”指的是将一个大而复杂的问题划分成多个性质相同但是规模更小的子问题，子问题继续按照这样划分，直到问题可以被轻易解决；“治”指的是将子问题单独进行处理。经过分治后的子问题，需要将解进行合并才能得到原问题的解，因此整个分治过程经常用递归来实现。
+
+知识点2：双指针
+
+双指针指的是在遍历对象的过程中，不是普通的使用单个指针进行访问，而是使用两个指针（特殊情况甚至可以多个），两个指针或是同方向访问两个链表、或是同方向访问一个链表（快慢指针）、或是相反方向扫描（对撞指针），从而达到我们需要的目的。
+
+思路：
+
+前面我们做合并两个有序链表不是使用归并思想吗？说明在链表中归并排序也不是不可能使用，合并阶段可以参照前面这道题，两个链表逐渐取最小的元素就可以了，但是划分阶段呢？
+
+常规数组的归并排序是分治思想，即将数组从中间个元素开始划分，然后将划分后的子数组作为一个要排序的数组，再将排好序的两个子数组合并成一个完整的有序数组，因此采用的是递归。而链表中我们也可以用同样的方式，只需要找到中间个元素的前一个节点，将其断开，就可以将链表分成两个子链表，然后继续划分，直到最小，然后往上依次合并。
+
+终止条件： 当子链表划分到为空或者只剩一个节点时，不再继续划分，往上合并。
+返回值： 每次返回两个排好序且合并好的子链表。
+本级任务： 找到这个链表的中间节点，从前面断开，分为左右两个子链表，进入子问题排序。
+怎么找中间元素呢？我们也可以使用快慢双指针，快指针每次两步，慢指针每次一步，那么快指针到达链表尾的时候，慢指针正好走了快指针距离的一半，为中间元素。
+
+具体做法：
+
+step 1：首先判断链表为空或者只有一个元素，直接就是有序的。
+step 2：准备三个指针，快指针right每次走两步，慢指针mid每次走一步，前序指针left每次跟在mid前一个位置。三个指针遍历链表，当快指针到达链表尾部的时候，慢指针mid刚好走了链表的一半，正好是中间位置。
+step 3：从left位置将链表断开，刚好分成两个子问题开始递归。
+step 4：将子问题得到的链表合并，参考合并两个有序链表。
+"""
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param head ListNode类 the head node
+# @return ListNode类
+#
+class Solution:
+    def merge(self, pHead1:ListNode, pHead2:ListNode) :
+        #一个已经为空了，直接返回另一个
+        if pHead1 == None:
+            return pHead2
+        if pHead2 == None:
+            return pHead1
+        #加一个表头
+        head = ListNode(0)
+        cur = head
+        #两个链表都要不为空
+        while pHead1 and pHead2:
+            #取较小值的节点
+            if pHead1.val <= pHead2.val:
+                cur.next = pHead1
+                #只移动取值的指针
+                pHead1 = pHead1.next
+            else:
+                cur.next = pHead2
+                #只移动取值的指针
+                pHead2 = pHead2.next
+            #指针后移
+            cur = cur.next
+        #哪个链表还有剩，直接连在后面
+        if pHead1:
+            cur.next = pHead1
+        else:
+            cur.next = pHead2
+        #返回值去掉表头
+        return head.next
+
+    def sortInList(self , head: ListNode) -> ListNode:
+        # write code here
+        if not head or not head.next:
+            return head
+        left = head
+        mid = head.next
+        right = head.next.next
+        while right and right.next:
+            left = left.next
+            mid = mid.next
+            right = right.next.next
+        left.next = None
+
+        return self.merge(self.sortInList(head), self.sortInList(mid))
