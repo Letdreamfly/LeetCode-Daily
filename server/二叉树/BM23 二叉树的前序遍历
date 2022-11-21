@@ -1,0 +1,33 @@
+"""
+https://www.nowcoder.com/practice/5e2135f4d2b14eb8a5b06fab4c938635
+描述
+给你二叉树的根节点 root ，返回它节点值的 前序 遍历。
+数据范围：二叉树的节点数量满足 1 \le n \le 100 \1≤n≤100  ，二叉树节点的值满足 1 \le val \le 100 \1≤val≤100  ，树的各节点的值各不相同
+
+示例1
+输入：{1,#,2,3}
+返回值：[1,2,3]
+"""
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+# @param root TreeNode类 
+# @return int整型一维数组
+class Solution:
+    def preorderTraversal(self , root: TreeNode) -> List[int]:
+        # write code here
+        if root == None:
+            return [] 
+        ans = self.preorder(root, [])
+        return ans
+
+    def preorder(self, root, ans):
+        if root!=None:
+            ans.append(root.val)
+        if root.left:
+            self.preorder(root.left, ans)
+        if root.right:
+            self.preorder(root.right, ans)
+        return ans
