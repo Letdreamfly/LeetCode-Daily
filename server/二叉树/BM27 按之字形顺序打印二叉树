@@ -1,0 +1,43 @@
+"""
+https://www.nowcoder.com/practice/91b69814117f4e8097390d107d2efbe0
+描述
+给定一个二叉树，返回该二叉树的之字形层序遍历，（第一层从左向右，下一层从右向左，一直这样交替）
+
+数据范围：0 \le n \le 15000≤n≤1500,树上每个节点的val满足 |val| <= 1500∣val∣<=1500
+要求：空间复杂度：O(n)O(n)，时间复杂度：O(n)O(n)
+"""
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param pRoot TreeNode类 
+# @return int整型二维数组
+#
+class Solution:
+    def Print(self , pRoot: TreeNode) -> List[List[int]]:
+        # write code here
+        res = []
+        if not pRoot:
+            return res
+        reverse = False
+        curr_nodes = [pRoot]
+        while curr_nodes:
+            curr_val = []
+            next_nodes = []
+            for node in curr_nodes:
+                curr_val.append(node.val)
+                if node.left:
+                    next_nodes.append(node.left)
+                if node.right:
+                    next_nodes.append(node.right)
+            if reverse:
+                curr_val = curr_val[::-1]
+            res.append(curr_val[:])
+            curr_nodes = next_nodes
+            reverse = not reverse
+        return res
