@@ -1,0 +1,38 @@
+"""
+https://www.nowcoder.com/practice/04a5560e43e24e9db4595865dc9c63a3
+描述
+给定一个二叉树，返回该二叉树层序遍历的结果，（从左到右，一层一层地遍历）。
+
+"""
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param root TreeNode类 
+# @return int整型二维数组
+#
+class Solution:
+    def levelOrder(self , root: TreeNode) -> List[List[int]]:
+        # write code here
+        res = []
+        if not root:
+            return res
+        curr_nodes = [root]
+        while curr_nodes:
+            curr_val = []
+            next_nodes = []
+            for node in curr_nodes:
+                curr_val.append(node.val)
+                if node.left:
+                    next_nodes.append(node.left)
+                if node.right:
+                    next_nodes.append(node.right)
+            res.append(curr_val[:])
+            curr_val = []
+            curr_nodes = next_nodes
+        return res
