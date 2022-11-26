@@ -1,0 +1,32 @@
+"""
+https://www.nowcoder.com/practice/ff05d44dfdb04e1d83bdbdab320efbcb
+描述
+给定一棵二叉树，判断其是否是自身的镜像（即：是否对称）
+"""
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param pRoot TreeNode类 
+# @return bool布尔型
+#
+class Solution:
+    def isSymmetrical(self , pRoot: TreeNode) -> bool:
+        # write code here
+        if not pRoot:
+            return True
+        return self.isequal(pRoot.left, pRoot.right)
+
+    def isequal(self, rleft, rright):
+        if not rleft and not rright:
+            return True
+        if not rleft or not rright:
+            return False
+        if rleft.val != rright.val:
+            return False
+        return self.isequal(rleft.left, rright.right) and self.isequal(rleft.right, rright.left)
