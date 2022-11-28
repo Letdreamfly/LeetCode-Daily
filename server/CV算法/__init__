@@ -1,1 +1,12 @@
+https://blog.csdn.net/freedomUSTB/article/details/124046386?spm=1001.2014.3001.5502
 
+CV常见算法列表：
+
+1. 图像增强算法
+2. 图像亮度增强方法
+3. nms算法
+4. kmeans算法
+5. precision、recall、f-score计算方法
+6. 常见激活函数
+7. CV常见损失函数
+8. 交叉熵求导
