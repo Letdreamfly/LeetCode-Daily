@@ -1,0 +1,38 @@
+"""
+https://blog.csdn.net/freedomUSTB/article/details/121826949?spm=1001.2014.3001.5502
+"""
+import numpy as np
+import matplotlib.pylab as plt
+
+def Sigmoid(x):
+    return 1./(1.+np.exp(-x))
+
+def ReLU(x):
+    return np.maximum(0, x)
+
+def ReLU6(x):
+    return np.minimum(6., np.maximum(0, x))
+
+def Swish(x):
+    return x * Sigmoid(x)
+
+def HardSwish(x):
+    return x*ReLU6(x+3.)/6.
+
+
+x = np.arange(-10, 10, 0.1)
+
+y1 = Sigmoid(x)
+y2 = ReLU(x)
+y3 = ReLU6(x)
+y4 = Swish(x)
+y5 = HardSwish(x)
+
+
+plt.plot(x, y1)
+plt.plot(x, y2)
+plt.plot(x, y3)
+plt.plot(x, y4)
+plt.plot(x, y5)
+plt.legend(['Sigmoid(x)', 'ReLU(x)', 'ReLU6(x)', 'Swish(x)', 'HardSwish(x)'], loc='upper left')
+plt.show()
