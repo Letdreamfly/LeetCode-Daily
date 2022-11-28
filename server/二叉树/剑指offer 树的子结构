@@ -1,0 +1,28 @@
+"""
+https://blog.csdn.net/freedomUSTB/article/details/105056848
+题目描述
+输入两棵二叉树A和B，判断B是否为A的子结构。（ps：我们约定空树不是任何一个树的子结构）
+"""
+# -*- coding:utf-8 -*-
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def HasSubtree(self, pRoot1, pRoot2):
+        # write code here
+        result = False
+        if pRoot1 and pRoot2:
+            if pRoot1.val == pRoot2.val:
+                result = self.isequal(pRoot1, pRoot2)
+            if not result:
+                result = self.HasSubtree(pRoot1.left, pRoot2) or self.HasSubtree(pRoot1.right, pRoot2)
+        return result
+    
+    def isequal(self, root1, root2):
+        if not root2:
+            return True
+        if not root1 or root1.val != root2.val:
+            return False
+        return self.isequal(root1.left, root2.left) and self.isequal(root1.right, root2.right)
