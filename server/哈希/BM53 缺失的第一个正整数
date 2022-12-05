@@ -1,0 +1,41 @@
+"""
+https://www.nowcoder.com/practice/50ec6a5b0e4e45348544348278cdcee5
+描述
+给定一个无重复元素的整数数组nums，请你找出其中没有出现的最小的正整数
+
+进阶： 空间复杂度 O(1)，时间复杂度 O(n).
+
+知识点：哈希表
+哈希表是一种根据关键码（key）直接访问值（value）的一种数据结构。而这种直接访问意味着只要知道key就能在O(1)O(1)O(1)时间内得到value.
+因此哈希表常用来统计频率、快速检验某个元素是否出现过等。
+
+思路：
+nnn个长度的数组，没有重复，则如果数组填满了1～n1～n1～n，那么缺失n+1n+1n+1，如果数组填不满1～n1～n1～n，那么缺失的就是1～n1～n1～n中的数字。
+对于这种快速查询某个元素是否出现过的问题，还是可以使用哈希表快速判断某个数字是否出现过。
+
+具体做法：
+step 1：构建一个哈希表，用于记录数组中出现的数字。
+step 2：从1开始，遍历到n，查询哈希表中是否有这个数字，如果没有，说明它就是数组缺失的第一个正整数，即找到。
+step 3：如果遍历到最后都在哈希表中出现过了，那缺失的就是n+1.
+"""
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param nums int整型一维数组 
+# @return int整型
+#
+class Solution:
+    def minNumberDisappeared(self , nums: List[int]) -> int:
+        # write code here
+        max_value = 0
+        hash = dict()
+        for ele in nums:
+            if ele in hash:
+                hash[ele] += 1
+            else:
+                hash[ele] = 1
+        res = 1
+        while res in hash:
+            res += 1
+        return res
