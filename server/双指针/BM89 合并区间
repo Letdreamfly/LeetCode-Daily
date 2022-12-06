@@ -1,0 +1,62 @@
+"""
+https://www.nowcoder.com/practice/69f4e5b7ad284a478777cb2a17fb5e6a
+描述
+给出一组区间，请合并所有重叠的区间。
+请保证合并后的区间按区间起点升序排列。
+
+数据范围：区间组数 0 \le n \le 2 \times 10^50≤n≤2×10 
+5
+ ，区间内 的值都满足 0 \le val \le 2 \times 10^50≤val≤2×10 
+5
+ 
+要求：空间复杂度 O(n)O(n)，时间复杂度 O(nlogn)O(nlogn)
+进阶：空间复杂度 O(val)O(val)，时间复杂度O(val)O(val)
+
+方法: 排序+贪心(推荐使用)
+知识点：贪心思想
+
+贪心思想属于动态规划思想中的一种，其基本原理是找出整体当中给的每个局部子结构的最优解，并且最终将所有的这些局部最优解结合起来形成整体上的一个最优解。
+
+思路：
+
+什么样的区间能够合并，那肯定是有交叉的区间，即后一个区间的尾小于前一个区间的首，这时候可以将这种交叉区间的尾合并延长区间：
+
+1
+2
+3
+//区间有重叠，更新结尾
+if(intervals[i].start <= res.back().end)
+    res.back().end = max(res.back().end, intervals[i].end);
+那我们肯定是区间在一定程度上有序的才可以方便比较（区间有两个边界值，完全有序不可能，但是可以按照区间首排序），这时候只要遍历到交叉的情况，就利用贪心思想，一直合并，直到不能合并为止。
+
+具体做法：
+
+step 1：既然要求重叠后的区间按照起点位置升序排列，我们就将所有区间按照起点位置先进行排序。使用sort函数进行排序，重载比较方式为比较interval结构的start变量。
+step 2：排序后的第一个区间一定是起点值最小的区间，我们将其计入返回数组res，然后遍历后续区间。
+step 3：后续遍历过程中，如果遇到起点值小于res中最后一个区间的末尾值的情况，那一定是重叠，取二者最大末尾值更新res中最后一个区间即可。
+step 4：如果遇到起点值大于res中最后一个区间的末尾值的情况，那一定没有重叠，后续也不会有这个末尾的重叠区间了，因为后面的起点只会更大，因此可以将它加入res。
+"""
+from functools import cmp_to_key
+
+class Solution:
+    def merge(self , intervals: List[Interval]) -> List[Interval]:
+        res = list()
+        #去除特殊情况
+        if len(intervals) == 0: 
+            return res
+        #按照区间首排序
+        intervals.sort(key=cmp_to_key(lambda a,b:a.start - b.start))
+        #放入第一个区间
+        res.append(intervals[0]) 
+        #遍历后续区间，查看是否与末尾有重叠
+        for i in range(len(intervals)): 
+            #区间有重叠，更新结尾
+            if intervals[i].start <= res[-1].end: 
+                res[-1].end = max(res[-1].end, intervals[i].end)
+            #区间没有重叠，直接加入
+            else: 
+                res.append(intervals[i])
+        return res
+
+
+
