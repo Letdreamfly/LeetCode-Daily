@@ -1,0 +1,75 @@
+"""
+https://www.nowcoder.com/practice/f33f5adc55f444baa0e0ca87ad8a6aac
+
+描述
+给定两个字符串str1和str2,输出两个字符串的最长公共子串
+题目保证str1和str2的最长公共子串存在且唯一。 
+"""
+"""
+方法一：枚举（前置方法，超时，不能完全通过）
+思路：
+
+最简单直观的方式大概就是枚举了，枚举所有的子串进行比较，但是太复杂了。其实找子串不用一样完全枚举，还可以尝试改良一下
+
+具体做法：
+
+step 1：我们完全可以遍历两个字符串的所有字符串作为起始
+step 2：然后同时开始检查字符是否相等，相等则不断后移，增加子串长度，如果不等说明以这两个为起点的子串截止了，不会再有了。
+step 3：后续比较长度维护最大值即可。
+"""
+class Solution:
+    def LCS(self , str1: str, str2: str) -> str:
+        #让str1为较长的字符串
+        if len(str1) < len(str2): 
+            str1, str2 = str2, str1
+        res = ''
+        max_len = 0
+        #遍历str1的长度
+        for i in range(len(str1)): 
+            #查找是否存在
+            if str1[i - max_len : i + 1] in str2: 
+                res = str1[i - max_len : i + 1]
+                max_len += 1
+        return res
+"""
+方法二：动态规划（推荐使用）
+知识点：动态规划
+
+动态规划算法的基本思想是：将待求解的问题分解成若干个相互联系的子问题，先求解子问题，然后从这些子问题的解得到原问题的解；对于重复出现的子问题，只在第一次遇到的时候对它进行求解，并把答案保存起来，让以后再次遇到时直接引用答案，不必重新求解。动态规划算法将问题的解决方案视为一系列决策的结果
+
+思路：
+
+动态规划继承自方法一，在枚举的基础上用动态规划来改进。
+
+具体做法：
+
+step 1：我们可以用dp[i][j]dp[i][j]dp[i][j]表示在str1中以第iii个字符结尾在str2中以第jjj个字符结尾时的公共子串长度，
+step 2：遍历两个字符串填充dp数组，转移方程为：如果遍历到的该位两个字符相等，则此时长度等于两个前一位长度+1，dp[i][j]=dp[i−1][j−1]+1dp[i][j] = dp[i - 1][j - 1] + 1dp[i][j]=dp[i−1][j−1]+1，如果遍历到该位时两个字符不相等，则置为0，因为这是子串，必须连续相等，断开要重新开始。
+step 3：每次更新dp[i][j]dp[i][j]dp[i][j]后，我们维护最大值，并更新该子串结束位置。
+step 4：最后根据最大值结束位置即可截取出子串。
+"""
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# longest common substring
+# @param str1 string字符串 the string
+# @param str2 string字符串 the string
+# @return string字符串
+#
+class Solution:
+    def LCS(self , str1: str, str2: str) -> str:
+        # write code here
+        dp = [[0] * (len(str2)+1) for i in range(len(str1)+1)]
+        max_l = 0
+        pos = 0
+        for i in range(len(str1)):
+            for j in range(len(str2)):
+                if str1[i] == str2[j]:
+                    dp[i+1][j+1] = dp[i][j] + 1
+                else:
+                    dp[i+1][j+1] = 0
+                if dp[i+1][j+1] > max_l:
+                    max_l = dp[i+1][j+1]
+                    pos = i
+        if max_l > 0:
+            return str1[pos-max_l+1: pos+1]
