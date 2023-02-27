@@ -1,0 +1,11 @@
+"""
+利用re模块，匹配字符串中字段
+https://blog.csdn.net/liao392781/article/details/80181088
+"""
+
+import re
+
+birthday = "1979年06月日"
+
+res = re.findall("(.*)年(.*)月(.*)日", birthday)
+print(res)
