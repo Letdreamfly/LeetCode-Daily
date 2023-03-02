@@ -30,14 +30,16 @@ step 4：需要注意最后的结果是下标值加1.
 class Solution:
     def twoSum(self , numbers: List[int], target: int) -> List[int]:
         # write code here
-        res = []
         hash = dict()
-        for i in range(len(numbers)):
-            temp = target - numbers[i]
-            if temp not in hash:
-                hash[numbers[i]] = i
-            else:
-                res.append(hash[temp]+1)
+        res = []
+
+        for i, ele in enumerate(numbers):
+            tmp = target - ele
+            if tmp in hash:
+                res.append(hash[tmp]+1)
                 res.append(i+1)
                 return res
+            else:
+                hash[ele] = i
+
         return res
